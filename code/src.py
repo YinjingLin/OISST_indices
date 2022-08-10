@@ -153,6 +153,30 @@ def gpd_from_domain(lonmin=None, lonmax=None, latmin=None, latmax=None, crs='432
     
     return shape_gpd
 
+
+def make_mask_from_shape(shapefile, dset, to_crs=None, lon_name='lon', lat_name='lat', mask_name='mask'): 
+    
+    import numpy as np
+    import geopandas as gpd
+    import regionmask
+    
+    shapefile = gpd.read_file(shapefile)
+    
+    if to_crs:
+        
+        shapefile = shapefile.to_crs(to_crs)
+        
+    lat = dset['lat'].data
+    lon = dset['lon'].data
+    
+    mask = regionmask.mask_geopandas(shapefile, lon, lat)
+    
+    mask = mask.where(np.isnan(mask), other=1)
+    
+    mask.name = mask_name
+    
+    return mask 
+
 def fix_leapyears(dset): 
 
     import numpy as np
