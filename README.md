@@ -1,7 +1,9 @@
 ## Sea Surface Temperature (SST) indices and maps derived from the daily OISST v2 product 
 
 This repository contains notebooks and code (in code/src.py) to calculate, maps and plots a series 
-of diagnostics 
+of diagnostics related to SST anomalies and heatwave conditions around Aotearoa New Zealand.
+
+Author: [Nicolas Fauchereau](mailto:Nicolas.Fauchereau@niwa.co.nz)
 
 The notebooks are intended to be run via [papermill](https://papermill.readthedocs.io/)
 
@@ -45,9 +47,13 @@ The notebooks are intended to be run via [papermill](https://papermill.readthedo
     - `quantile` (float): The quantile for the determination of heatwave conditions, default is 0.9 (90th percentile)
     - `lag` (int): The lag in days, currently set to zero: the last available period  
 
+Below are examples of the maps generated
+
+<img src="https://github.com/nicolasfauchereau/OISST_indices/blob/main/figures/combo_images_anoms.png" alt="SST anomalies with MHW conditions stippled" title="SST anomalies with MHW conditions stippled" height="150"/>
+
 <hr>
 
-5) **OISST_realtime_NZ_indices.ipynb** calculate and plots the NZ coast SST indices. Parameters are: 
+1) **OISST_realtime_NZ_indices.ipynb** calculate and plots the NZ coast SST indices. Parameters are: 
 
     - `domain` (str): The domain used by the function `get_domain`, needs to be 'NZ' so do not change
     - `NZ_regions` (list): The list of NZ regions ["NNI", "WNI", "ENI", "NSI", "WSI", "ESI"]
