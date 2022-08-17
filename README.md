@@ -69,7 +69,7 @@ Below are examples of the maps generated
 
 The map below shows the geometries used for the definition of the 6 NZ coastal regions (["NNI", "WNI", "ENI", "NSI", "WSI", "ESI"])
 
-<img src="https://github.com/nicolasfauchereau/OISST_indices/blob/main/figures/NZ_6_coastal_regions" alt="NZ 6 coastal regions" title="NZ 6 coastal regions" width="400"/>
+<img src="https://github.com/nicolasfauchereau/OISST_indices/blob/main/figures/NZ_6_coastal_regions.png" alt="NZ 6 coastal regions" title="NZ 6 coastal regions" width="400"/>
 
 and the following figure shows an example of the time-series generated 
 
