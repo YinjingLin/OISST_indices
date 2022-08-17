@@ -49,7 +49,7 @@ The notebooks are intended to be run via [papermill](https://papermill.readthedo
 
 Below are examples of the maps generated
 
-<img src="https://github.com/nicolasfauchereau/OISST_indices/blob/main/figures/combo_images_anoms.png" alt="SST anomalies with MHW conditions stippled" title="SST anomalies with MHW conditions stippled" width="400"/>
+<img src="https://github.com/nicolasfauchereau/OISST_indices/blob/main/figures/combo_images_anoms.png" alt="SST anomalies with MHW conditions stippled" title="SST anomalies with MHW conditions stippled" width="900"/>
 
 <hr>
 
