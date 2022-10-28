@@ -1,12 +1,18 @@
-from email.mime import base
+def get_domain(name="NZ"):
 
+    domains = {}
+    domains["NZ"] = [162.0, 180.0, -50.0, -30.0]
+    domains["Tropical_Pacific"] = [140.0, (360.0 - 70), -7, 7]
+    domains["Ninos"] = [190.0, 280.0, -10.0, 5.0]
+    domains["IOD"] = [45.0, 110.0, -10.0, 10.0]
+
+    return domains[name]
 
 def preprocess(dset, domain):
 
     dset = dset.sel(lon=slice(*domain[:2]), lat=slice(*domain[2:]))
 
     return dset["sst"]
-
 
 def timeout(timeout_secs: int):
     import time
@@ -41,7 +47,6 @@ def timeout(timeout_secs: int):
 
     return wrapper
 
-
 def download_http(
     url=None,
     domain=[162.0, 180.0, -50.0, -30.0],
@@ -74,7 +79,6 @@ def download_http(
 
         return None
 
-
 @timeout(120)
 def download_dap(
     url=None,
@@ -104,14 +108,12 @@ def download_dap(
 
         return None
 
-
 def download_OISST(
     dap_url="https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.oisst.v2.highres",
     fileserver_url="https://psl.noaa.gov/thredds/fileServer/Datasets/noaa.oisst.v2.highres",
     year=None,
     domain=[162.0, 180.0, -50.0, -30.0],
     opath=None,
-    verbose=True,
 ):
 
     import pathlib
@@ -135,17 +137,6 @@ def download_OISST(
     except: 
 
         r = download_http(url=f"{fileserver_url}/{fname}", domain=domain, opath=opath.joinpath(fname))
-
-def get_domain(name="NZ"):
-
-    domains = {}
-    domains["NZ"] = [162.0, 180.0, -50.0, -30.0]
-    domains["Tropical_Pacific"] = [140.0, (360.0 - 70), -7, 7]
-    domains["Ninos"] = [190.0, 280.0, -10.0, 5.0]
-    domains["IOD"] = [45.0, 110.0, -10.0, 10.0]
-
-    return domains[name]
-
 
 def calculates_ninos(
     dset, lon_name="lon", lat_name="lat", nino="3.4", expand_dims=True
@@ -192,7 +183,6 @@ def calculates_ninos(
 
     return sub
 
-
 def calculates_IOD_nodes(
     dset, lon_name="lon", lat_name="lat", IOD_node="IOD_West", expand_dims=True
 ):
@@ -229,7 +219,6 @@ def calculates_IOD_nodes(
             sub = sub.expand_dims({"IOD": [IOD_node]})
 
     return sub
-
 
 def gpd_from_domain(lonmin=None, lonmax=None, latmin=None, latmax=None, crs="4326"):
     """
@@ -279,7 +268,6 @@ def gpd_from_domain(lonmin=None, lonmax=None, latmin=None, latmax=None, crs="432
     shape_gpd = shape_gpd.set_crs(f"EPSG:{crs}")
 
     return shape_gpd
-
 
 def make_mask_from_shape(
     shapefile, dset, to_crs=None, lon_name="lon", lat_name="lat", mask_name="mask"
