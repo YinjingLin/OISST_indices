@@ -53,7 +53,6 @@ Below are examples of the maps generated
 
 <img src="https://github.com/nicolasfauchereau/OISST_indices/blob/main/figures/combo_images_heatwave_days.png" alt="Number of consecutive periods with heatwave conditions" title="Number of consecutive periods with heatwave conditions" width="900"/>
 
-
 <hr>
 
 1) **OISST_realtime_NZ_indices.ipynb** calculate and plots the NZ coast SST indices. Parameters are: 
@@ -85,11 +84,3 @@ and the following figure shows an example of the time-series generated
     - `fig_path` (str): The path where to save the figures
     - `ndays_agg` (int): The aggregation period (i.e. 1, 7 or 30 days)
     - `nmonths_back` (int): How many past months to plot
-
-
-
-
-
-
-
-
