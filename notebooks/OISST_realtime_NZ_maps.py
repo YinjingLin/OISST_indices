@@ -24,18 +24,18 @@ import cartopy.feature as cfeature
 import OISST
 
 # %% uncomment and edit this for testing interactively
-domain = "NZ"
-ipath = "/media/nicolasf/END19101/data/OISST/daily"
-clim_path = "/home/nicolasf/operational/OISST_indices/outputs/"
-fig_path = "/home/nicolasf/operational/OISST_indices/figures/"
-ndays_agg = 30
-ndays_back = 365 * 10
-quantile = .9
-lag = 5
+# domain = "NZ"
+# ipath = "/media/nicolasf/END19101/data/OISST/daily"
+# clim_path = "/home/nicolasf/operational/OISST_indices/outputs/"
+# fig_path = "/home/nicolasf/operational/OISST_indices/figures/"
+# ndays_agg = 30
+# ndays_back = 365 * 10
+# quantile = .9
+# lag = 5
 
-ipath = pathlib.Path(ipath).joinpath(domain)
-clim_path = pathlib.Path(clim_path).joinpath(domain)
-fig_path = pathlib.Path(fig_path)
+# ipath = pathlib.Path(ipath).joinpath(domain)
+# clim_path = pathlib.Path(clim_path).joinpath(domain)
+# fig_path = pathlib.Path(fig_path)
 
 # %%
 parser = argparse.ArgumentParser(prog = 'OISST_realtime_NZ_maps.py',
@@ -77,7 +77,7 @@ lag = args.lag
 quantile = float(args.quantile)
 domain = args.domain
 ipath = pathlib.Path(args.ipath).joinpath(domain)
-clim_path = pathlib.Path(args.ipclim_pathath).joinpath(domain)
+clim_path = pathlib.Path(args.ipath).joinpath(domain)
 fig_path = pathlib.Path(args.fig_path)
 ndays_agg = int(args.ndays_agg)
 ndays_back = int(args.ndays_back)
@@ -90,14 +90,14 @@ current_date = date.today()
 last_date = current_date - timedelta(days=lag)
 
 # %%
-first_day = last_date - timedelta(days=ndays_back)
+first_date = last_date - timedelta(days=ndays_back)
 
 # %%
-years_to_get = np.unique(np.arange(first_day.year, last_date.year + 1))
+years_to_get = np.unique(np.arange(first_date.year, last_date.year + 1))
 
 
 # %%
-lfiles = [ipath.joinpath(f"sst.day.mean.{year}.v2.nc") for year in years_to_get]
+lfiles = [ipath.joinpath(f"sst.day.mean.{year}.nc") for year in years_to_get]
 
 # %%
 lfiles.sort()
@@ -151,7 +151,7 @@ mask = mask.where(np.isnan(mask), other=1)
 mask
 
 # %%
-dataarray_anoms = anoms["sst"]
+dataarray_anoms = anoms["sst"].isel(time=-1)
 
 # %%
 dataarray_raw = dset["sst"].isel(time=-1)
@@ -258,3 +258,4 @@ f.savefig(
     bbox_inches="tight",
     facecolor="w",
 )
+# %%

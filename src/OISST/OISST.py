@@ -60,6 +60,8 @@ def download_http(
     import io
     import xarray as xr
 
+    print(url)
+
     with requests.get(url) as r:
 
         dset = xr.open_dataset(io.BytesIO(r.content))
@@ -75,7 +77,7 @@ def download_http(
         return str(opath)
 
         print(
-            f"{str(opath.joinpath(fname))} downloaded successfully using HTTPS PSL file server"
+            f"{str(opath)} downloaded successfully using HTTPS PSL file server"
         )
 
     else:
@@ -110,12 +112,14 @@ def download_dap(
 
         return None
 
+
 def download_OISST(
     dap_url="https://psl.noaa.gov/thredds/dodsC/Datasets/noaa.oisst.v2.highres",
     fileserver_url="https://downloads.psl.noaa.gov/Datasets/noaa.oisst.v2.highres",
     year=None,
     domain=[162.0, 180.0, -50.0, -30.0],
     opath=None,
+    tryDAP=False,
 ):
 
     import pathlib
@@ -130,15 +134,25 @@ def download_OISST(
         opath = pathlib.Path.cwd().parent.joinpath("data")
         opath.mkdir(exist_ok=True)
 
-    fname = f"sst.day.mean.{year}.v2.nc"
+    fname = f"sst.day.mean.{year}.nc"
 
-    try:
+    if tryDAP:
 
-        r = download_dap(
-            url=f"{dap_url}/{fname}", domain=domain, opath=opath.joinpath(fname)
-        )
+        try:
 
-    except:
+            r = download_dap(
+                url=f"{dap_url}/{fname}", domain=domain, opath=opath.joinpath(fname)
+            )
+
+        except:
+
+            r = download_http(
+                url=f"{fileserver_url}/{fname}",
+                domain=domain,
+                opath=opath.joinpath(fname),
+            )
+
+    else:
 
         r = download_http(
             url=f"{fileserver_url}/{fname}", domain=domain, opath=opath.joinpath(fname)
@@ -455,8 +469,8 @@ def plot_SST_map(
 
     ax.add_feature(land, facecolor="gainsboro")
     ax.add_feature(lakes, facecolor="b", edgecolor="b", alpha=0.2)
-    ax.add_feature(states_provinces, edgecolor="k", linewidth=1)
-    ax.coastlines("10m", linewidth=1)
+    ax.add_feature(states_provinces, edgecolor="k", linewidth=0.8)
+    ax.coastlines("10m", linewidth=0.8)
 
     ax.set_title(None)
 

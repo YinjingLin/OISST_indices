@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
+# %%
 
 # %%
 import pathlib
@@ -38,8 +39,14 @@ domain = args.domain
 tryDAP = bool(args.tryDAP)
 
 # %%
-if not(year): 
-    year = date.today().year 
+# year = 2022
+# opath = pathlib.Path('/media/nicolasf/END19101/data/OISST/daily/') 
+# domain = 'NZ'
+# tryDAP = False
+
+# %%
+if year is None: 
+    year = str(date.today().year)
 
 # %%
 download_path = opath.joinpath(domain)
