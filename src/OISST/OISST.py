@@ -440,7 +440,7 @@ def plot_SST_map(
 
     if kind == "anomalies":
 
-        title = f"OISST V2 {ndays_agg} days average anomalies* to {date:%Y-%m-%d}\n"
+        title = f"NIWA Marine Heawaves tracking: {ndays_agg} day(s) anomalies* to {date:%Y-%m-%d}"
 
         cbar_label = "SST anomaly (°C)"
 
@@ -477,18 +477,31 @@ def plot_SST_map(
     ax.set_title(title, fontsize=14, loc="left", ha="left")
 
     ax.text(
-        0.01,
-        1.01,
+        0.025,
+        0.95,
         f"Max = {sst_range[1]:+4.2f}˚C | Min = {sst_range[0]:+4.2f}˚C",
         transform=ax.transAxes,
         ha="left",
         fontsize=12,
+        bbox=dict(facecolor='white', alpha=0.5)
     )
 
     ax.text(
         0.01,
         -0.05,
         "*Marine heatwave conditions stippled",
+        transform=ax.transAxes,
+        ha="left",
+        fontsize=12,
+        color="k",
+        style="italic",
+    )
+
+
+    ax.text(
+        0.9,
+        -0.05,
+        "Data source: NOAA OISST V2",
         transform=ax.transAxes,
         ha="left",
         fontsize=12,
