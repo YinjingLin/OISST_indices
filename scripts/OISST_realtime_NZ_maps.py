@@ -179,7 +179,7 @@ f, ax = OISST.plot_SST_map(
 
 # %%
 f.savefig(
-    fig_path.joinpath(f"proto_OISST_anoms_{ndays_agg:02d}_days_to_{last_day:%Y-%m-%d}git a.png"),
+    fig_path.joinpath(f"proto_OISST_anoms_{ndays_agg:02d}_days_to_{last_day:%Y-%m-%d}.png"),
     dpi=200,
     bbox_inches="tight",
     facecolor="w",
