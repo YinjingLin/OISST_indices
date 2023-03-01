@@ -179,7 +179,7 @@ f, ax = OISST.plot_SST_map(
 
 # %%
 f.savefig(
-    fig_path.joinpath(f"proto_OISST_anoms_{ndays_agg:02d}_days_to_{last_day:%Y-%m-%d}.png"),
+    fig_path.joinpath(f"proto_OISST_anoms_{ndays_agg:02d}_days_to_{last_day:%Y-%m-%d}git a.png"),
     dpi=200,
     bbox_inches="tight",
     facecolor="w",
@@ -247,7 +247,7 @@ ax.add_feature(states_provinces, edgecolor="k", linewidth=1)
 ax.coastlines("10m", linewidth=1)
 
 ax.set_title(
-    f"NIWA Marine Heawaves tracking: {ndays_agg} day(s) to {last_day:%Y-%m-%d}\nNumber of consecutive {ndays_agg} day(s) periods\nabove {int(quantile*100):02d}th percentile",
+    f"NIWA Marine Heat Waves tracking: {ndays_agg} day(s) to {last_day:%Y-%m-%d}\nNumber of consecutive {ndays_agg} day(s) periods\nabove {int(quantile*100):02d}th percentile",
     fontsize=14,
 )
 
