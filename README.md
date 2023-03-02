@@ -1,7 +1,7 @@
 ## Sea Surface Temperature (SST) indices and maps derived from the daily OISST v2 product 
 
-This repository contains notebooks and code (in code/src.py) to calculate, maps and plots a series 
-of diagnostics related to SST anomalies and heatwave conditions around Aotearoa New Zealand.
+This repository contains Jupyter notebooks, Python scripts and a module (in [OISST.py](OISST.py)) to calculate, maps and plots a series 
+of diagnostics related to Sea Surface Temperature (SST) anomalies and Marine Heat Wave (MHW) conditions around Aotearoa New Zealand.
 
 Author: [Nicolas Fauchereau](mailto:Nicolas.Fauchereau@niwa.co.nz)
 
