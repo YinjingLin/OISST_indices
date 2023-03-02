@@ -251,6 +251,18 @@ ax.set_title(
     fontsize=14,
 )
 
+ax.text(
+    0.575,
+    0.025,
+    "Data source: NOAA OISST V2",
+    transform=ax.transAxes,
+    ha="left",
+    fontsize=10,
+    color="k",
+    style="italic",
+    bbox=dict(facecolor='white', alpha=0.5)
+)
+
 # %%
 f.savefig(
     fig_path.joinpath(f"proto_OISST_heatwave_days_{ndays_agg:02d}_days_to_{last_day:%Y-%m-%d}.png"),
