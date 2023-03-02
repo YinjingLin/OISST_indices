@@ -24,7 +24,7 @@ Plots the time-series of the Aotearoa New Zealand 6 coastal SST indices (see map
 
 Below is the help for these scripts 
 
-- *update_OISST.py* 
+- ### update_OISST.py 
 
 ```
 usage: update_OISST.py [-h] [-y YEAR] [-o OPATH] [-d DOMAIN] [-t TRYDAP]
@@ -46,7 +46,7 @@ Always check data availability at https://downloads.psl.noaa.gov/Datasets/noaa.o
 
 ```
 
-- *OISST_realtime_NZ_maps.py* 
+- ### OISST_realtime_NZ_maps.py 
 
 ```
 usage: OISST_realtime_NZ_maps.py [-h] [-l LAG] [-q QUANTILE] [-d DOMAIN] [-i IPATH] [-c CLIM_PATH] [-f FIG_PATH] [-n NDAYS_AGG] [-b NDAYS_BACK]
@@ -75,7 +75,7 @@ optional arguments:
 Relies on `update_OISST.py` to be run first
 ```
 
-- *OISST_realtime_NZ_indices.py* 
+- ### OISST_realtime_NZ_indices.py 
 
 ```
 usage: OISST_realtime_NZ_indices.py [-h] [-d DOMAIN] [-i IPATH] [-c CLIM_PATH] [-s SHAPES_PATH] [-f FIG_PATH] [-n NDAYS_AGG] [-m NMONTHS_BACK]
