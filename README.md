@@ -1,6 +1,6 @@
 ## Sea Surface Temperature (SST) indices and maps derived from the daily OISST v2 product 
 
-This repository contains Jupyter notebooks, Python scripts and a module (in [OISST.py](OISST.py)) to calculate, maps and plots a series 
+This repository contains Jupyter notebooks, Python scripts and a module (in [OISST.py](OISST.py)) to calculate, map and plot a series 
 of diagnostics related to Sea Surface Temperature (SST) anomalies and Marine Heat Wave (MHW) conditions around Aotearoa New Zealand.
 
 Author: [Nicolas Fauchereau](mailto:Nicolas.Fauchereau@niwa.co.nz)
@@ -105,7 +105,7 @@ Relies on `update_OISST.py` to be run first
 
 <hr>
 
-In the [notebooks](https://github.com/nicolasfauchereau/OISST_indices/tree/main/notebooks) directory are some notebooks mainly used to calculate the climatologies, which should only be needed to be run if calculating climatologies for another domain or another period. 
+In the [notebooks](https://github.com/nicolasfauchereau/OISST_indices/tree/main/notebooks) directory are some notebooks mainly used to calculate the climatologies, which should only be needed to be run if calculating climatologies for another domain or another period. The main one if interest is `calculate_OISST_climatologies.ipynb`, it is intended to be run using [papermill](https://papermill.readthedocs.io/), but will be converted to a Python script soon. 
 
 **calculate_OISST_climatologies.ipynb** calculates the climatological values for a particular domain, i.e. calculates average, std, and quantiles [0.1, 0.25, 0.5, 0.75, 0.9] for a given climatology period (currently 1991 - 2020). Parameters are: 
 
