@@ -39,6 +39,9 @@ parser.add_argument('-s', '--shapes_path', type=str, default='/home/nicolasf/ope
 
 parser.add_argument('-f', '--fig_path', type=str, default='/home/nicolasf/operational/OISST_indices/figures/',
                     help="The path to where the figures are saved, default to '/home/nicolasf/operational/OISST_indices/figures/'")
+
+parser.add_argument('-v', '--csv_path', type=str, default='.',
+                    help="The path to where the csvs are saved'")
                     
 parser.add_argument('-n', '--ndays_agg', type=int, default=1,
                     help="The averaging period in days, can be in [1, 7, 30] currently")
@@ -57,6 +60,7 @@ ipath = pathlib.Path(args.ipath).joinpath(domain)
 clim_path = pathlib.Path(args.clim_path).joinpath(domain)
 shapes_path = pathlib.Path(args.shapes_path)
 fig_path = pathlib.Path(args.fig_path)
+csv_path = pathlib.Path(args.csv_path)
 ndays_agg = int(args.ndays_agg)
 nmonths_back = int(args.nmonths_back)
 
@@ -87,7 +91,10 @@ lfiles = [ipath.joinpath(f"sst.day.mean.{year}.nc") for year in years_to_get]
 lfiles.sort()
 
 # %% open the files 
-dset = xr.open_mfdataset(lfiles, parallel=True, combine="by_coords")
+try:
+    dset = xr.open_mfdataset(lfiles, parallel=True, combine="by_coords")
+except KeyError:
+    dset = xr.open_mfdataset(lfiles, combine="by_coords")
 
 
 # %% calculate the rolling averages if needed 
@@ -170,6 +177,10 @@ anoms_ts = anoms_ts.drop("dayofyear", axis=1)
 
 # %% fix the column names 
 anoms_ts.columns = NZ_regions
+
+# Define a save path for the CSV
+save_path_csv = csv_path / f"{ndays_agg}_days.csv"
+anoms_ts.to_csv(save_path_csv)
 
 # %% plot the time-series 
 f, axes = plt.subplots(
