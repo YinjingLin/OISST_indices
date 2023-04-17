@@ -3,12 +3,16 @@
 # %%
 
 # %%
+import sys 
 import pathlib
 from datetime import date
 import argparse
 
 # %%
 import OISST
+
+# %% 
+print(f"executing update_OISST.py with {str(sys.executable)}\n")
 
 # %%
 parser = argparse.ArgumentParser(prog = 'update_OISST.py',

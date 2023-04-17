@@ -6,6 +6,7 @@ from matplotlib import pyplot as plt
 from matplotlib import rc
 
 # %%
+import sys
 import pathlib
 import argparse
 
@@ -20,6 +21,9 @@ import xarray as xr
 
 # %% 
 import OISST 
+
+# %% 
+print(f"executing OISST_realtime_Ninos_indices.py with {str(sys.executable)}\n")
 
 parser = argparse.ArgumentParser(prog = 'OISST_realtime_Ninos_indices.py',
                                 description = 'Plot the time-series of OISST V2 SST anomalies for the Ninos regions', 

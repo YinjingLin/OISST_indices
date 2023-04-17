@@ -7,6 +7,7 @@ import cmocean
 import palettable
 
 # %%
+import sys
 import pathlib
 import argparse
 
@@ -36,6 +37,9 @@ import OISST
 # ipath = pathlib.Path(ipath).joinpath(domain)
 # clim_path = pathlib.Path(clim_path).joinpath(domain)
 # fig_path = pathlib.Path(fig_path)
+
+# %% 
+print(f"executing OISST_realtime_NZ_maps.py with {str(sys.executable)}\n")
 
 # %%
 parser = argparse.ArgumentParser(prog = 'OISST_realtime_NZ_maps.py',
