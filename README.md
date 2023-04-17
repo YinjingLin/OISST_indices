@@ -7,7 +7,7 @@ Author: [Nicolas Fauchereau](mailto:Nicolas.Fauchereau@niwa.co.nz)
 
 The first port of call is the [scripts](https://github.com/nicolasfauchereau/OISST_indices/tree/main/scripts) directory. 
 
-It contains 3 scripts: 
+It contains 4 scripts: 
 
 - [update_OISST.py](https://github.com/nicolasfauchereau/OISST_indices/blob/main/scripts/update_OISST.py)   
   
@@ -20,7 +20,11 @@ date with MHW conditions
 
 - [OISST_realtime_NZ_indices.py](https://github.com/nicolasfauchereau/OISST_indices/blob/main/scripts/OISST_realtime_NZ_indices.py) 
 
-Plots the time-series of the Aotearoa New Zealand 6 coastal SST indices (see map below)
+Plots the time-series of the Aotearoa New Zealand 6 coastal SST indices (see figures below)
+
+[OISST_realtime_Ninos_indices.py](https://github.com/nicolasfauchereau/OISST_indices/blob/main/scripts/OISST_realtime_Ninos_indices.py) 
+
+Plots the time-series of the Ninos indices ('1+2', '3', '4', '3.4', 'ONI')
 
 Below is the help for these scripts 
 
