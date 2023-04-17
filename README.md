@@ -78,7 +78,7 @@ Relies on `update_OISST.py` to be run first
 - ### OISST_realtime_NZ_indices.py 
 
 ```
-usage: OISST_realtime_NZ_indices.py [-h] [-d DOMAIN] [-i IPATH] [-c CLIM_PATH] [-s SHAPES_PATH] [-f FIG_PATH] [-n NDAYS_AGG] [-m NMONTHS_BACK]
+usage: OISST_realtime_NZ_indices.py [-h] [-d DOMAIN] [-i IPATH] [-c CLIM_PATH] [-s SHAPES_PATH] [-f FIG_PATH] [-o CSV_PATH] [-n NDAYS_AGG] [-m NMONTHS_BACK]
 
 Plot the time-series of OISST V2 SST anomalies for the 6 NZ coastal regions
 
@@ -91,17 +91,50 @@ optional arguments:
   -c CLIM_PATH, --clim_path CLIM_PATH
                         The path to the zarr files containing the climatologies, default to '/home/nicolasf/operational/OISST_indices/outputs/'
   -s SHAPES_PATH, --shapes_path SHAPES_PATH
-                        The path to the shapefiles used to delineates the 6 NZ coastal regions, default to
-                        '/home/nicolasf/operational/OISST_indices/data/shapefiles/'
+                        The path to the shapefiles used to delineates the 6 NZ coastal regions, default to '/home/nicolasf/operational/OISST_indices/data/shapefiles/'
   -f FIG_PATH, --fig_path FIG_PATH
                         The path to where the figures are saved, default to '/home/nicolasf/operational/OISST_indices/figures/'
+  -o CSV_PATH, --csv_path CSV_PATH
+                        The path to where the csv files containing the time-series are saved '/home/nicolasf/operational/OISST_indices/outputs/'
   -n NDAYS_AGG, --ndays_agg NDAYS_AGG
                         The averaging period in days, can be in [1, 7, 30] currently
   -m NMONTHS_BACK, --nmonths_back NMONTHS_BACK
                         The number of months to look back, default 36
 
-Relies on `update_OISST.py` to be run first
+Relies on `update_OISST.py --domain NZ` to be run first
+
 ```  
+
+- ### OISST_realtime_Ninos_indices.py
+
+```
+usage: OISST_realtime_Ninos_indices.py [-h] [-d DOMAIN] [-i IPATH] [-c CLIM_PATH] [-s SHAPES_PATH] [-f FIG_PATH] [-o CSV_PATH] [-n NDAYS_AGG] [-m NMONTHS_BACK]
+
+Plot the time-series of OISST V2 SST anomalies for the Ninos regions
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DOMAIN, --domain DOMAIN
+                        The domain for which to download / extract, can be in ['NZ','Ninos','IOD'], default to 'Ninos' and should not change ...
+  -i IPATH, --ipath IPATH
+                        The root path where the downloaded OISST datasets are, default to '/media/nicolasf/END19101/data/OISST/daily'
+  -c CLIM_PATH, --clim_path CLIM_PATH
+                        The path to the zarr files containing the climatologies, default to '/home/nicolasf/operational/OISST_indices/outputs/'
+  -s SHAPES_PATH, --shapes_path SHAPES_PATH
+                        The path to the shapefiles used to delineates the 6 NZ coastal regions, default to '/home/nicolasf/operational/OISST_indices/data/shapefiles/'
+  -f FIG_PATH, --fig_path FIG_PATH
+                        The path to where the figures are saved, default to '/home/nicolasf/operational/OISST_indices/figures/'
+  -o CSV_PATH, --csv_path CSV_PATH
+                        The path to where the csv files containing the time-series are saved '/home/nicolasf/operational/OISST_indices/outputs/'
+  -n NDAYS_AGG, --ndays_agg NDAYS_AGG
+                        The averaging period in days, can be in [1, 7, 30] currently
+  -m NMONTHS_BACK, --nmonths_back NMONTHS_BACK
+                        The number of months to look back, default 36
+
+Relies on `update_OISST.py --domain Ninos` to be run first
+
+```
+
 
 <hr>
 
