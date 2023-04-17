@@ -91,8 +91,10 @@ lfiles = [ipath.joinpath(f"sst.day.mean.{year}.nc") for year in years_to_get]
 lfiles.sort()
 
 # %% open the files 
-dset = xr.open_mfdataset(lfiles, parallel=True, combine="by_coords")
-
+try:
+    dset = xr.open_mfdataset(lfiles, parallel=True, combine="by_coords")
+except KeyError:
+    dset = xr.open_mfdataset(lfiles, combine="by_coords")
 
 # %% calculate the rolling averages if needed 
 if ndays_agg > 1:
@@ -181,7 +183,7 @@ csv_path.mkdir(parents=True, exist_ok=True)
 
 anoms_ts.to_csv(csv_path.joinpath(f"{domain}_time-series_{ndays_agg}_days_anomalies_to_{last_day:%Y-%m-%d}.csv"))
 
-print(anoms_ts.head())
+print(anoms_ts.head(20))
 
 # %% plot the time-series 
 f, axes = plt.subplots(
