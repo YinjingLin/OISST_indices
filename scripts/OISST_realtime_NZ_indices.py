@@ -39,7 +39,10 @@ parser.add_argument('-s', '--shapes_path', type=str, default='/home/nicolasf/ope
 
 parser.add_argument('-f', '--fig_path', type=str, default='/home/nicolasf/operational/OISST_indices/figures/',
                     help="The path to where the figures are saved, default to '/home/nicolasf/operational/OISST_indices/figures/'")
-                    
+
+parser.add_argument('-o', '--csv_path', type=str, default='/home/nicolasf/operational/OISST_indices/outputs/',
+                    help="The path to where the csv files containing the time-series are saved '/home/nicolasf/operational/OISST_indices/outputs/'")
+  
 parser.add_argument('-n', '--ndays_agg', type=int, default=1,
                     help="The averaging period in days, can be in [1, 7, 30] currently")
 
@@ -57,6 +60,7 @@ ipath = pathlib.Path(args.ipath).joinpath(domain)
 clim_path = pathlib.Path(args.clim_path).joinpath(domain)
 shapes_path = pathlib.Path(args.shapes_path)
 fig_path = pathlib.Path(args.fig_path)
+csv_path = pathlib.Path(args.csv_path)
 ndays_agg = int(args.ndays_agg)
 nmonths_back = int(args.nmonths_back)
 
@@ -170,6 +174,14 @@ anoms_ts = anoms_ts.drop("dayofyear", axis=1)
 
 # %% fix the column names 
 anoms_ts.columns = NZ_regions
+
+# %% export to CSV 
+
+csv_path.mkdir(parents=True, exist_ok=True) 
+
+anoms_ts.to_csv(csv_path.joinpath(f"{domain}_time-series_{ndays_agg}_days_anomalies_to_{last_day:%Y-%m-%d}.csv"))
+
+print(anoms_ts.head())
 
 # %% plot the time-series 
 f, axes = plt.subplots(
