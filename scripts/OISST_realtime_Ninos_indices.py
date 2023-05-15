@@ -38,9 +38,6 @@ parser.add_argument('-i', '--ipath', type=str, default='/media/nicolasf/END19101
 parser.add_argument('-c', '--clim_path', type=str, default='/home/nicolasf/operational/OISST_indices/outputs/',
                     help="The path to the zarr files containing the climatologies, default to '/home/nicolasf/operational/OISST_indices/outputs/'")
 
-parser.add_argument('-s', '--shapes_path', type=str, default='/home/nicolasf/operational/OISST_indices/data/shapefiles/',
-                    help="The path to the shapefiles used to delineates the 6 NZ coastal regions, default to '/home/nicolasf/operational/OISST_indices/data/shapefiles/'")
-
 parser.add_argument('-f', '--fig_path', type=str, default='/home/nicolasf/operational/OISST_indices/figures/',
                     help="The path to where the figures are saved, default to '/home/nicolasf/operational/OISST_indices/figures/'")
 
@@ -62,7 +59,6 @@ args = parser.parse_args()
 domain = args.domain
 ipath = pathlib.Path(args.ipath).joinpath(domain)
 clim_path = pathlib.Path(args.clim_path).joinpath(domain)
-shapes_path = pathlib.Path(args.shapes_path)
 fig_path = pathlib.Path(args.fig_path)
 csv_path = pathlib.Path(args.csv_path)
 ndays_agg = int(args.ndays_agg)
