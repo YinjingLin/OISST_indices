@@ -22,7 +22,7 @@ date with MHW conditions
 
 Plots the time-series of the Aotearoa New Zealand 6 coastal SST indices (see figures below)
 
-[OISST_realtime_Ninos_indices.py](https://github.com/nicolasfauchereau/OISST_indices/blob/main/scripts/OISST_realtime_Ninos_indices.py) 
+- [OISST_realtime_Ninos_indices.py](https://github.com/nicolasfauchereau/OISST_indices/blob/main/scripts/OISST_realtime_Ninos_indices.py) 
 
 Plots the time-series of the Ninos indices ('1+2', '3', '4', '3.4', 'ONI')
 
