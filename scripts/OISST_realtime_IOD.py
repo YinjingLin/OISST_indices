@@ -117,15 +117,14 @@ clim = xr.open_zarr(
     clim_path.joinpath(f"{domain}_OISST_{ndays_agg}days_climatology_15_window.zarr")
 )
 
-
-# %% calculate the climatology 
+# %% remove the average 
 anoms = dset.groupby(dset.time.dt.dayofyear) - clim["average"]
 
+# %% divide by the standard deviation 
 anoms_std = anoms.groupby(dset.time.dt.dayofyear) / clim["std"]
 
-
-# %% repeat the climo  
-clim_repeat = clim.sel(dayofyear=dset.time.dt.dayofyear)
+# %% repeat the climo , not used so drop ? 
+# clim_repeat = clim.sel(dayofyear=dset.time.dt.dayofyear)
 
 # %% Now interpolate over the standard calendar
 anoms_std = anoms_std.interp_calendar(standard_calendar)

@@ -121,7 +121,7 @@ clim = xr.open_zarr(
 anoms = dset.groupby(dset.time.dt.dayofyear) - clim["average"]
 
 # %% repeat the climo  
-clim_repeat = clim.sel(dayofyear=dset.time.dt.dayofyear)
+# clim_repeat = clim.sel(dayofyear=dset.time.dt.dayofyear)
 
 # %% Now interpolate over the standard calendar
 anoms = anoms.interp_calendar(standard_calendar)
