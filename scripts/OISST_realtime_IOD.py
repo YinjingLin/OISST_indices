@@ -23,14 +23,14 @@ import xarray as xr
 import OISST 
 
 # %% 
-print(f"executing OISST_realtime_Ninos_indices.py with {str(sys.executable)}\n")
+print(f"executing OISST_realtime_IOD_indices.py with {str(sys.executable)}\n")
 
-parser = argparse.ArgumentParser(prog = 'OISST_realtime_Ninos_indices.py',
-                                description = 'Plot the time-series of OISST V2 SST anomalies for the Ninos regions', 
+parser = argparse.ArgumentParser(prog = 'OISST_realtime_IOD_indices.py',
+                                description = 'Plot the time-series of OISST V2 SST anomalies for the IOD index', 
                                 epilog = 'Relies on `update_OISST.py` to be run first\n')
 
 parser.add_argument('-d', '--domain', type=str, default='Ninos',
-                    help="The domain for which to download / extract, can be in ['NZ','Ninos','IOD'], default to 'Ninos' and should not change ...")
+                    help="The domain for which to download / extract, can be in ['NZ','Ninos','IOD'], default to 'IOD' and should not change ...")
 
 parser.add_argument('-i', '--ipath', type=str, default='/media/nicolasf/END19101/data/OISST/daily',
                     help="The root path where the downloaded OISST datasets are, default to '/media/nicolasf/END19101/data/OISST/daily'")
@@ -110,24 +110,31 @@ standard_calendar = pd.date_range(start=first_day, end=last_day, freq="D")
 dset = dset.convert_calendar("noleap")
 
 # %% calculate the Ninos indices
-dset = OISST.calculates_ninos(dset, nino='all')
+dset = OISST.calculates_IOD_nodes(dset, IOD_node='all')
 
 # %% open the climatologies 
 clim = xr.open_zarr(
     clim_path.joinpath(f"{domain}_OISST_{ndays_agg}days_climatology_15_window.zarr")
 )
 
+
 # %% calculate the climatology 
 anoms = dset.groupby(dset.time.dt.dayofyear) - clim["average"]
+
+anoms_std = anoms.groupby(dset.time.dt.dayofyear) / clim["std"]
+
 
 # %% repeat the climo  
 clim_repeat = clim.sel(dayofyear=dset.time.dt.dayofyear)
 
 # %% Now interpolate over the standard calendar
-anoms = anoms.interp_calendar(standard_calendar)
+anoms_std = anoms_std.interp_calendar(standard_calendar)
 
 # %% 
-anoms_ts = anoms['sst'].to_pandas().T
+anoms_ts = anoms_std['sst'].to_pandas().T
+
+# %% IOD 
+anoms_ts = anoms_ts.assign(IOD = anoms_ts.loc[:,'IOD_West'] - anoms_ts.loc[:,'IOD_East'])
 
 # %% export to CSV 
 
@@ -142,12 +149,12 @@ print(anoms_ts.tail(10))
 
 # %% plot the time-series
 f, axes = plt.subplots(
-    nrows=len(dset.nino.data[:-1]), figsize=(10, 15), sharex=True, sharey=True
+    nrows=len(anoms_ts.columns), figsize=(10, 15), sharex=True, sharey=True
 )
 
 plt.subplots_adjust(hspace=0.35)
 
-for i, region in enumerate(dset.nino.data[:-1]):
+for i, region in enumerate(anoms_ts.columns):
 
     ax = axes[i]
 
@@ -164,7 +171,7 @@ for i, region in enumerate(dset.nino.data[:-1]):
     
     ax.grid(ls=":")
 
-    title = "NINO " + r"$\bf{" + region + "}$" + f" OISST V2 {ndays_agg} days anomalies to {last_day:%Y-%m-%d}\nMin: {df.min():+4.2f}°C ({df.idxmin():%Y-%m-%d}), Max: {df.max():+4.2f}°C ({df.idxmax():%Y-%m-%d}), latest: {df.iloc[-1]:+4.2f}°C"
+    title = r"$\bf{" + region.replace('_','') + "}$" + f", OISST V2 {ndays_agg} days anomalies to {last_day:%Y-%m-%d}\nMin: {df.min():+4.2f}°C ({df.idxmin():%Y-%m-%d}), Max: {df.max():+4.2f}°C ({df.idxmax():%Y-%m-%d}), latest: {df.iloc[-1]:+4.2f}°C"
 
     ax.set_title(title, loc="left")
 
@@ -175,11 +182,14 @@ for i, region in enumerate(dset.nino.data[:-1]):
 
     ax.set_xlim(first_day, last_day)
 
+# %% 
+print(f"saving figure in {str(fig_path)}")
+
 
 # %% save the figure
 f.savefig(
     fig_path.joinpath(
-        f"prototype_Ninos_indices_{ndays_agg}days_agg_to_{last_day:%Y%m%d}.png"
+        f"prototype_IOD_{ndays_agg}days_agg_to_{last_day:%Y%m%d}.png"
     ),
     dpi=200,
     bbox_inches="tight",
