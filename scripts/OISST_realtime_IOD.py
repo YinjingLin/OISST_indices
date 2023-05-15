@@ -170,7 +170,7 @@ for i, region in enumerate(anoms_ts.columns):
     
     ax.grid(ls=":")
 
-    title = r"$\bf{" + region.replace('_','') + "}$" + f", OISST V2 {ndays_agg} days anomalies to {last_day:%Y-%m-%d}\nMin: {df.min():+4.2f}°C ({df.idxmin():%Y-%m-%d}), Max: {df.max():+4.2f}°C ({df.idxmax():%Y-%m-%d}), latest: {df.iloc[-1]:+4.2f}°C"
+    title = r"$\bf{" + region.replace('_','') + "}$" + f", OISST V2 {ndays_agg} days anomalies to {last_day:%Y-%m-%d}\nMin: {df.min():+4.2f} std ({df.idxmin():%Y-%m-%d}), Max: {df.max():+4.2f} std ({df.idxmax():%Y-%m-%d}), latest: {df.iloc[-1]:+4.2f} std"
 
     ax.set_title(title, loc="left")
 
