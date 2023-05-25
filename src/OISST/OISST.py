@@ -208,7 +208,8 @@ def calculates_ninos(
 def calculates_IOD_nodes(
     dset, lon_name="lon", lat_name="lat", IOD_node="IOD_West", expand_dims=True
 ):
-
+    import xarray as xr
+    
     iod = {"IOD_West": [50, 70, -10, 10], "IOD_East": [90, 110, -10, 0]}
 
     if IOD_node == "all":
