@@ -170,13 +170,20 @@ for NZ_region in NZ_regions:
 anoms_ts = xr.merge(anoms_ts)
 
 # %% and convert back to standard calendar 
-anoms_ts = anoms_ts.interp_calendar(standard_calendar)
+# anoms_ts = anoms_ts.interp_calendar(standard_calendar) # removes this, source of the problem with last day being a NaN
 
 # %% convert to dataframe 
 anoms_ts = anoms_ts.to_pandas()
 
 # %% drop the day of year column
 anoms_ts = anoms_ts.drop("dayofyear", axis=1)
+
+# %%% fix the calendar issue 
+anoms_ts_index = [datetime.datetime(d.year, d.month, d.day) for d in anoms_ts.index]
+anoms_ts_index = pd.DatetimeIndex(anoms_ts_index)
+anoms_ts.index = anoms_ts_index
+anoms_ts = anoms_ts.reindex(standard_calendar)
+anoms_ts = anoms_ts.interpolate()
 
 # %% fix the column names 
 anoms_ts.columns = NZ_regions
