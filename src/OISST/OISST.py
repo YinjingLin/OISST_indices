@@ -1,6 +1,7 @@
 def get_domain(name="NZ"):
 
     domains = {}
+    domains["global"] = [0.0, 360.0, -90.0, 90.0]
     domains["NZ"] = [162.0, 180.0, -50.0, -30.0]
     domains["Tropical_Pacific"] = [140.0, (360.0 - 70), -7, 7]
     domains["Ninos"] = [190.0, 280.0, -10.0, 5.0]
