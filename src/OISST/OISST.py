@@ -1,3 +1,20 @@
+import pathlib
+from datetime import datetime
+
+from PIL import Image
+import signal
+from functools import wraps
+
+import requests
+import io
+
+import numpy as np
+import pandas as pd
+import xarray as xr
+from shapely.geometry import Polygon
+import geopandas as gpd 
+
+
 def get_domain(name="NZ"):
 
     domains = {}
@@ -18,9 +35,6 @@ def preprocess(dset, domain):
 
 
 def timeout(timeout_secs: int):
-    import time
-    import signal
-    from functools import wraps
 
     def wrapper(func):
         @wraps(func)
@@ -57,9 +71,6 @@ def download_http(
     opath=None,
 ):
 
-    import requests
-    import io
-    import xarray as xr
 
     print(url)
 
@@ -123,8 +134,6 @@ def download_OISST(
     tryDAP=False,
 ):
 
-    import pathlib
-    from datetime import datetime
 
     if not year:
 
@@ -160,12 +169,27 @@ def download_OISST(
         )
 
 
+# This function will create 366 day climo (of mean and standard deviation)
+def createclimo(dset,climrang1,climrang2):
+    da = dset.sel(time=slice(climrang1, climrang2))
+    not_leap_year = xr.DataArray(~da.indexes['time'].is_leap_year, coords=da.coords)
+    march_or_later = da.time.dt.month >= 3
+    ordinal_day = da.time.dt.dayofyear
+    modified_ordinal_day = ordinal_day + (not_leap_year & march_or_later)
+    modified_ordinal_day = modified_ordinal_day.rename('modified_ordinal_day')
+    # Mean
+    nwclim = da.groupby(modified_ordinal_day).mean('time')
+    nwclim = nwclim.rename({'modified_ordinal_day':'dayofyear'})
+    # Standard Deviation
+    nwclim_std = da.groupby(modified_ordinal_day).std('time')
+    nwclim_std = nwclim_std.rename({'modified_ordinal_day':'dayofyear'})
+    return nwclim, nwclim_std
+
+
+
 def calculates_ninos(
     dset, lon_name="lon", lat_name="lat", nino="3.4", expand_dims=True
 ):
-
-    import xarray as xr
-
     ninos = {
         "1+2": [270, 280, -10, 0],
         "3": [210, 270, -5, 5],
@@ -208,9 +232,7 @@ def calculates_ninos(
 
 def calculates_IOD_nodes(
     dset, lon_name="lon", lat_name="lat", IOD_node="IOD_West", expand_dims=True
-):
-    import xarray as xr
-    
+):    
     iod = {"IOD_West": [50, 70, -10, 10], "IOD_East": [90, 110, -10, 0]}
 
     if IOD_node == "all":
@@ -271,8 +293,7 @@ def gpd_from_domain(lonmin=None, lonmax=None, latmin=None, latmax=None, crs="432
         [description]
     """
 
-    from shapely.geometry import Polygon
-    import geopandas as gpd
+
 
     # make the box
 
@@ -515,8 +536,72 @@ def plot_SST_map(
     return (f, ax)
 
 
-from PIL import Image
+# From Michelle L'Heureux @ NOAA: 
+# This function will high pass and low pass smoother with fixed number of harmonics (includes mean)
+def harm_smoother(dset,num_harm):
+    Z = np.fft.fft(dset)
+    # to get the right variance, we need to normalize Z by N.
+    Zfft = Z/len(dset)
+    # next, we calculate the power: the square of absolute value of complex fourier transform
+    Ck2 = np.abs(Zfft)**2
+    # compute power over half the FFT output
+    Ck2 = 2*np.abs(Zfft[0:int(len(dset)/2)+1])**2
+    # low-pass filter: retain only the mean and the first X harmonics (adding to NUM_HARM), set all other frequencies to zero
+    # Note that we use the unnormalized FFT output here as this is what we want to plug into our inverse fft.
+    Z_lp = np.copy(Z)
+    Z_lp[num_harm:-(num_harm-1):] = 0.0  # we have to set both the positive and negative frequencies to zero
+    # apply inverse fourier transform to convert back to time domain (just want the real part)
+    idx_lp = np.real(np.fft.ifft(Z_lp))
+    # high-pass filter: remove everything that we didn't remove before
+    Z_hp = np.copy(Z)
+    Z_hp[0:num_harm] = 0
+    Z_hp[-(num_harm-1):] = 0
+    # apply inverse fourier transform to convert back to time domain
+    idx_hp = np.real(np.fft.ifft(Z_hp))
+    return idx_lp, idx_hp
 
+def xr_fit_harmonic(x, dim='dayofyear', nharm=4):
+
+    # define harmonic fitting function 
+    def harmo(x, nharm):
+        # Ensure data is a numpy array
+        dat = np.array(x)
+        if dat.ndim == 1:
+            dat = dat[:, np.newaxis]
+        
+        n = len(dat)
+        t = np.arange(1, n + 1) / float(n)
+
+        P = np.ones((n, 1))
+        for k in range(1, nharm + 1):
+            P = np.hstack((P, np.cos(k * 2 * np.pi * t[:, np.newaxis])))
+            P = np.hstack((P, np.sin(k * 2 * np.pi * t[:, np.newaxis])))
+
+        beta = np.linalg.inv(P.T @ P) @ P.T @ dat
+        season = P @ beta
+        return season.flatten()
+
+    # use `apply_ufunc` to apply along the dimension, `dayofyear` is default
+    dataarray = xr.apply_ufunc(
+        harmo, 
+        x,
+        input_core_dims=[[dim]],
+        output_core_dims=[[dim]],
+        vectorize=True,
+        kwargs={'nharm': nharm}
+    )
+    
+    return dataarray
+
+def fix_calendar(ts): 
+    """
+    Important, assumes daily time-serie
+    """
+    ts = ts.convert_calendar('standard')
+    dates = pd.date_range(ts.time.to_index()[0], ts.time.to_index()[-1])
+    ts = ts.reindex({'time':dates})
+    ts = ts.interpolate_na(dim='time')
+    return ts 
 
 def append_images(
     images, direction="horizontal", bg_color=(255, 255, 255), aligment="center"
