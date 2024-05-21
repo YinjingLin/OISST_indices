@@ -601,6 +601,9 @@ def fix_calendar(ts):
     dates = pd.date_range(ts.time.to_index()[0], ts.time.to_index()[-1])
     ts = ts.reindex({'time':dates})
     ts = ts.interpolate_na(dim='time')
+    # if the last day is missing
+    if ts.isel(time=-1).isnull(): 
+        ts = ts.ffill(dim='time') 
     return ts 
 
 def append_images(
