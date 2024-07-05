@@ -588,6 +588,7 @@ def xr_fit_harmonic(x, dim='dayofyear', nharm=4):
         input_core_dims=[[dim]],
         output_core_dims=[[dim]],
         vectorize=True,
+        dask='allowed',
         kwargs={'nharm': nharm}
     )
     
