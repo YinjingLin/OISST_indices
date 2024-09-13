@@ -179,7 +179,7 @@ anoms_ts = anoms_ts.to_pandas()
 anoms_ts = anoms_ts.drop("dayofyear", axis=1)
 
 # %%% fix the calendar issue 
-anoms_ts_index = [datetime.datetime(d.year, d.month, d.day) for d in anoms_ts.index]
+anoms_ts_index = [datetime(d.year, d.month, d.day) for d in anoms_ts.index]
 anoms_ts_index = pd.DatetimeIndex(anoms_ts_index)
 anoms_ts.index = anoms_ts_index
 anoms_ts = anoms_ts.reindex(standard_calendar)
