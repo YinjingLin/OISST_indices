@@ -16,18 +16,17 @@ dependencies:
   - jinja2=3.1.2=pyhd8ed1ab_1
   - xarray=2023.3.0  
   - geopandas=0.12.2=pyhd8ed1ab_0
+  - beautifulsoup4=4.12.0=pyha770c72_0
+  - cmocean=3.0.3=pyhd8ed1ab_0
+  - cryptography==40.0.1
+  - dateparser=1.1.8
+  - geos=3.11.2=hcb278e6_0
+  - h5py==3.8.0
+  - palettable=3.3.0=py_0
+  - pydap=3.3.0=pyhd8ed1ab_0
+  - regionmask=0.9.0=pyhd8ed1ab_0
 
-  # - beautifulsoup4=4.12.0=pyha770c72_0
-  # - cmocean=3.0.3=pyhd8ed1ab_0
-  # - cryptography==40.0.1
-  # - dateparser=1.1.8
-  
-  # - geos=3.11.2=hcb278e6_0
-  # - h5py==3.8.0
-  # - netcdf4==1.6.3
-  # - palettable=3.3.0=py_0
-  # - pydap=3.3.0=pyhd8ed1ab_0
-  # - regionmask=0.9.0=pyhd8ed1ab_0
+
   # - arrow-cpp=11.0.0=ha770c72_13_cpu
   # - antlr-python-runtime=4.7.2=py311h38be061_1003
   # - asciitree=0.3.3=py_2
