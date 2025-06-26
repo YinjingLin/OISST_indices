@@ -1,0 +1,18 @@
+[project]
+name = "OISST"
+version = "0.1.0"
+description = "Code for calculation and mapping of SST anomalies and heatwaves conditions around Aotearoa / New Zealand from daily OISST"
+readme = "README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [
+    { name = "Nicolas Fauchereau", email = "Nicolas.Fauchereau@gmail.com" }
+]
+urls = { homepage = "https://github.com/nicolasfauchereau/OISST_indices" }
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "docs"]
