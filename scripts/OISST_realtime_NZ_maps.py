@@ -107,7 +107,7 @@ lfiles = [ipath.joinpath(f"sst.day.mean.{year}.nc") for year in years_to_get]
 lfiles.sort()
 
 # %%
-dset = xr.open_mfdataset(lfiles, parallel=True, combine="by_coords", engine='netcdf4') 
+dset = xr.open_mfdataset(lfiles, parallel=False, combine="by_coords", engine='netcdf4') 
 
 # %%
 dset = dset.sortby('time')
