@@ -28,7 +28,3 @@ dependencies:
   - h5netcdf=1.1.0=pyhd8ed1ab_1
   - zarr=2.14.2=pyhd8ed1ab_0
   - setuptools=80.9
- 
-  - pip:
-    - pyqt5==5.15
-
