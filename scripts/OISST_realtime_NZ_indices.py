@@ -95,12 +95,7 @@ lfiles = [ipath.joinpath(f"sst.day.mean.{year}.nc") for year in years_to_get]
 lfiles.sort()
 
 # %% Open the files safely
-try:
-    dset = xr.open_mfdataset(lfiles, parallel=True, combine="by_coords")
-except Exception as e:
-    print("Parallel read failed due to:", e)
-    print("Retrying with parallel=False...")
-    dset = xr.open_mfdataset(lfiles, parallel=False, combine="by_coords")
+dset = xr.open_mfdataset(lfiles, parallel=False, combine="by_coords")
 
 # %% calculate the rolling averages if needed 
 if ndays_agg > 1:
