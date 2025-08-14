@@ -251,7 +251,7 @@ ax.add_feature(states_provinces, edgecolor="k", linewidth=1)
 ax.coastlines("10m", linewidth=1)
 
 ax.set_title(
-    f"NIWA Marine Heat Waves tracking: {ndays_agg} day(s) to {last_day:%Y-%m-%d}\nNumber of consecutive {ndays_agg} day(s) periods\nabove {int(quantile*100):02d}th percentile",
+    f"ESNZ Marine Heat Waves tracking: {ndays_agg} day(s) to {last_day:%Y-%m-%d}\nNumber of consecutive {ndays_agg} day(s) periods\nabove {int(quantile*100):02d}th percentile",
     fontsize=14,
 )
 

@@ -463,7 +463,7 @@ def plot_SST_map(
 
     if kind == "anomalies":
 
-        title = f"NIWA Marine Heat Waves tracking\n{ndays_agg} day(s) anomalies* to {date:%Y-%m-%d}"
+        title = f"ESNZ Marine Heat Waves tracking\n{ndays_agg} day(s) anomalies* to {date:%Y-%m-%d}"
 
         cbar_label = "SST anomaly (°C)"
 
