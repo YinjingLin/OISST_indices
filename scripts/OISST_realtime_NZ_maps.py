@@ -12,7 +12,7 @@ import pathlib
 import argparse
 
 # %%
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta, timezone
 
 # %%
 import numpy as np
@@ -71,6 +71,9 @@ parser.add_argument('-n', '--ndays_agg', type=int, default=1,
 parser.add_argument('-b', '--ndays_back', type=int, default=3650,
                     help="The number of days to look back for the calculation of the cumulative MHWs conditions, default 10 years (3650 days)")
 
+parser.add_argument('--date', type=str, default=None,
+                    help="The date to process with format YYYYMMDD, default None to process the current date")
+
 # %% 
 args = parser.parse_args()
 
@@ -86,9 +89,10 @@ fig_path = pathlib.Path(args.fig_path)
 ndays_agg = int(args.ndays_agg)
 ndays_back = int(args.ndays_back)
 
-
-# %%
-current_date = date.today()
+if args.date is not None:
+    current_date = pd.to_datetime(args.date).date()
+else:
+    current_date = datetime.now(timezone.utc)
 
 # %%
 last_date = current_date - timedelta(days=lag)

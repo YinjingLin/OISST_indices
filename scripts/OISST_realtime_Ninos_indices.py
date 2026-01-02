@@ -11,7 +11,7 @@ import pathlib
 import argparse
 
 # %% 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dateparser import parse
 
 # %% 
@@ -50,6 +50,8 @@ parser.add_argument('-n', '--ndays_agg', type=int, default=1,
 parser.add_argument('-m', '--nmonths_back', type=int, default=36,
                     help="The number of months to look back, default 36")
 
+parser.add_argument('--date', type=str, default=None,
+                    help="The date to process with format YYYYMMDD, default None to process the current date")
 
 args = parser.parse_args()
 
@@ -64,19 +66,18 @@ csv_path = pathlib.Path(args.csv_path)
 ndays_agg = int(args.ndays_agg)
 nmonths_back = int(args.nmonths_back)
 
-# %% 
-# get the current date 
-current_date = datetime.utcnow()
+if args.date is not None:
+    processing_date = pd.to_datetime(args.date).date()
+else:
+    processing_date = datetime.now(timezone.utc)
+processing_year = processing_date.year
 
 # %% 
-# get the first day of the period 
-first_day = parse(f"{nmonths_back} months ago")
-
-# %% 
-first_day = first_day - timedelta(days=first_day.day - 1)
+# get the first day of the period, nmonths_back months ago
+first_day = (pd.Timestamp(processing_date) - pd.DateOffset(months=nmonths_back, days=1)).date()
 
 # %% get the years 
-years_to_get = np.unique(np.arange(first_day.year, current_date.year + 1))
+years_to_get = np.unique(np.arange(first_day.year, processing_year + 1))
 
 # %% list the files 
 lfiles = [ipath.joinpath(f"sst.day.mean.{year}.nc") for year in years_to_get]
