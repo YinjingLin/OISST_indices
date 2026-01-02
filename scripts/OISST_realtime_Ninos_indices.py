@@ -74,7 +74,7 @@ processing_year = processing_date.year
 
 # %% 
 # get the first day of the period, nmonths_back months ago
-first_day = (pd.Timestamp(processing_date) - pd.DateOffset(months=nmonths_back, days=1)).date()
+first_day = (pd.Timestamp(processing_date) - pd.DateOffset(months=nmonths_back, day=1)).date()
 
 # %% get the years 
 years_to_get = np.unique(np.arange(first_day.year, processing_year + 1))
